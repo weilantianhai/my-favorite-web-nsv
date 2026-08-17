@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的常用网站导航</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+      min-height: 100vh;
+      background: #0b0d12;
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(56, 189, 248, 0.05) 0%, transparent 50%);
+      color: #e2e8f0;
+      padding: 2rem 1.5rem;
+    }
+
+    /* ===== Container ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ===== Header ===== */
+    header {
+      text-align: center;
+      padding: 2.5rem 0 3rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, #a5b4fc 0%, #f9a8d4 50%, #67e8f9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      margin-top: 0.5rem;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* ===== Section ===== */
+    .section {
+      margin-bottom: 2.5rem;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+      padding-left: 0.5rem;
+      border-left: 3px solid;
+      border-image: linear-gradient(180deg, #818cf8, #c084fc) 1;
+    }
+
+    /* ===== Grid ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    /* ===== Glass Card ===== */
+    .card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 1.25rem 1rem;
+      text-decoration: none;
+      color: #e2e8f0;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.35s;
+      pointer-events: none;
+    }
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+    .card:hover::before {
+      opacity: 1;
+    }
+    .card:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* ===== Favicon ===== */
+    .card .icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .card .icon img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    /* ===== Text ===== */
+    .card .info {
+      flex: 1;
+      min-width: 0;
+    }
+    .card .info .name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card .info .desc {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ===== Arrow hint ===== */
+    .card .arrow {
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      color: #475569;
+      transition: all 0.25s;
+    }
+    .card:hover .arrow {
+      color: #818cf8;
+      transform: translateX(3px);
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 2rem 0 0.5rem;
+      color: #334155;
+      font-size: 0.8rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 640px) {
+      body { padding: 1rem; }
+      header h1 { font-size: 1.5rem; }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      .card {
+        padding: 1rem 0.85rem;
+      }
+    }
+    @media (min-width: 641px) and (max-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>✦ 我的常用网站</h1>
+      <p>—— 极简 · 毛玻璃导航 ——</p>
+    </header>
+
+    <!-- ===== AI工具 ===== -->
+    <section class="section">
+      <h2 class="section-title">🤖 AI 工具</h2>
+      <div class="grid">
+        <a href="https://chat.deepseek.com/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=deepseek.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">DeepSeek Chat</span>
+            <span class="desc">深度求索 AI 对话助手</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://chatgpt.com/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=chatgpt.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">ChatGPT</span>
+            <span class="desc">OpenAI 对话式 AI 助手</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://gemini.google.com/app?hl=zh-cn" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=gemini.google.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">Google Gemini</span>
+            <span class="desc">Google 多模态 AI 对话</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== 开发工具 ===== -->
+    <section class="section">
+      <h2 class="section-title">🛠️ 开发工具</h2>
+      <div class="grid">
+        <a href="https://github.com/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">GitHub</span>
+            <span class="desc">代码托管与协作开发平台</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://www.iconfont.cn/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=iconfont.cn&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">Iconfont</span>
+            <span class="desc">阿里巴巴矢量图标库</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://hope0719.github.io/token-fbi/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=github.io&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">Token FBI</span>
+            <span class="desc">免费 Token 资源收集站</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://simpfun.cn/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=simpfun.cn&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">SimpFun</span>
+            <span class="desc">云服务与项目部署平台</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== 影音娱乐 ===== -->
+    <section class="section">
+      <h2 class="section-title">🎬 影音娱乐</h2>
+      <div class="grid">
+        <a href="https://www.bilibili.com/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=bilibili.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">BiliBili</span>
+            <span class="desc">视频弹幕网站，学习与娱乐</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://www.douyin.com/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=douyin.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">抖音</span>
+            <span class="desc">短视频社交平台</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== 资源查找 ===== -->
+    <section class="section">
+      <h2 class="section-title">🔍 资源查找</h2>
+      <div class="grid">
+        <a href="https://snapany.com/zh" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=snapany.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">SnapAny</span>
+            <span class="desc">在线资源下载工具</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== 学习教育 ===== -->
+    <section class="section">
+      <h2 class="section-title">📚 学习教育</h2>
+      <div class="grid">
+        <a href="https://www.cqnu.edu.cn/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=cqnu.edu.cn&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">重庆师范大学</span>
+            <span class="desc">学校官网，校园信息门户</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://i.chaoxing.com/" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=chaoxing.com&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">超星学习</span>
+            <span class="desc">在线课程与学习管理平台</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      Made with ❤️ &nbsp;·&nbsp; 我的常用网站导航
+    </footer>
+  </div>
+
+  <!-- ===== Mouse-follow glow ===== -->
+  <script>
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--my', `${e.clientY - rect.top}px`);
+      });
+    });
+  </script>
+</body>
+</html>
