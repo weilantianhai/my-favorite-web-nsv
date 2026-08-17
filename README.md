@@ -2,7 +2,7 @@
 
 > 一个极简、美观的毛玻璃风格个人导航页，支持深色/浅色主题切换与跟随系统。
 
-📝 **项目备注：** 本页面由 DeepSeek 生成，是作者学习 **Vibe Coding**（AI 对话式编程）和 **GitHub 仓库管理**的练手作品，同时也用来收藏和记录自己认为有价值的网站。
+📝 **项目备注：** 本页面由 DeepSeekHarness + DeepSeek-V4-flash 生成，是作者学习 **Vibe Coding**（AI 对话式编程）和 **GitHub 仓库管理**的练手作品，同时也用来收藏和记录自己认为有价值的网站。
 
 🔗 **在线地址：** <https://weilantianhai.github.io/my-favorite-web-nsv/my-nav.html>
 
