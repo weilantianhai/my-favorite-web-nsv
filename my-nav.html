@@ -3,20 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" id="theme-color" content="#0b0d12">
   <title>我的常用网站导航</title>
   <style>
+    /* ===== Theme Variables ===== */
+    /* Dark (default) */
+    :root {
+      --bg: #0b0d12;
+      --bg-glow-1: rgba(99, 102, 241, 0.08);
+      --bg-glow-2: rgba(236, 72, 153, 0.06);
+      --bg-glow-3: rgba(56, 189, 248, 0.05);
+      --text: #e2e8f0;
+      --text-muted: #64748b;
+      --text-dim: #475569;
+      --text-footer: #334155;
+      --section-title: #94a3b8;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.06);
+      --card-border-hover: rgba(255, 255, 255, 0.15);
+      --card-glow: rgba(255, 255, 255, 0.04);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      --icon-bg: rgba(255, 255, 255, 0.06);
+      --icon-border: rgba(255, 255, 255, 0.06);
+      --toggle-bg: rgba(255, 255, 255, 0.1);
+      --toggle-dot: #fbbf24;
+      --toggle-dot-shadow: rgba(251, 191, 36, 0.4);
+    }
+
+    /* Light (via data-resolved — always matches actual visible theme) */
+    [data-resolved="light"] {
+      --bg: #f1f5f9;
+      --bg-glow-1: rgba(99, 102, 241, 0.15);
+      --bg-glow-2: rgba(236, 72, 153, 0.10);
+      --bg-glow-3: rgba(56, 189, 248, 0.10);
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --text-footer: #cbd5e1;
+      --section-title: #475569;
+      --card-bg: rgba(219, 234, 254, 0.6);
+      --card-border: rgba(59, 130, 246, 0.10);
+      --card-border-hover: rgba(59, 130, 246, 0.25);
+      --card-glow: rgba(59, 130, 246, 0.06);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(59, 130, 246, 0.04);
+      --icon-bg: rgba(59, 130, 246, 0.06);
+      --icon-border: rgba(59, 130, 246, 0.10);
+      --toggle-bg: rgba(59, 130, 246, 0.10);
+      --toggle-dot: #3b82f6;
+      --toggle-dot-shadow: rgba(59, 130, 246, 0.4);
+    }
+
     /* ===== Reset & Base ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
       min-height: 100vh;
-      background: #0b0d12;
+      background: var(--bg);
       background-image:
-        radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(56, 189, 248, 0.05) 0%, transparent 50%);
-      color: #e2e8f0;
+        radial-gradient(ellipse at 20% 50%, var(--bg-glow-1) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, var(--bg-glow-2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, var(--bg-glow-3) 0%, transparent 50%);
+      color: var(--text);
       padding: 2rem 1.5rem;
+      transition: background 0.35s ease, color 0.35s ease;
     }
 
     /* ===== Container ===== */
@@ -29,6 +78,7 @@
     header {
       text-align: center;
       padding: 2.5rem 0 3rem;
+      position: relative;
     }
     header h1 {
       font-size: 2rem;
@@ -41,8 +91,89 @@
     }
     header p {
       margin-top: 0.5rem;
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 0.9rem;
+    }
+
+    /* ===== Theme Toggle (3-position) ===== */
+    .theme-toggle-wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .theme-toggle {
+      position: relative;
+      width: 64px;
+      height: 26px;
+      background: var(--toggle-bg);
+      border-radius: 13px;
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+      flex-shrink: 0;
+      outline: none;
+    }
+    .theme-toggle:focus-visible {
+      box-shadow: 0 0 0 2px var(--toggle-dot);
+    }
+    .theme-toggle .dot {
+      position: absolute;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--toggle-dot);
+      box-shadow: 0 0 8px var(--toggle-dot-shadow);
+      transition: left 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    /* 3 positions: dark (left), system (center), light (right) */
+    [data-theme="dark"] .theme-toggle .dot { left: 2px; }
+    [data-theme="system"] .theme-toggle .dot { left: 22px; }
+    [data-theme="light"] .theme-toggle .dot { left: 42px; }
+    .theme-toggle .dot .icon-dark,
+    .theme-toggle .dot .icon-system,
+    .theme-toggle .dot .icon-light {
+      position: absolute;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    /* Dark mode icon */
+    [data-theme="dark"] .theme-toggle .dot .icon-dark {
+      opacity: 1; transform: scale(1);
+    }
+    [data-theme="dark"] .theme-toggle .dot .icon-system,
+    [data-theme="dark"] .theme-toggle .dot .icon-light {
+      opacity: 0; transform: scale(0.4);
+    }
+    /* System mode icon */
+    [data-theme="system"] .theme-toggle .dot .icon-system {
+      opacity: 1; transform: scale(1);
+    }
+    [data-theme="system"] .theme-toggle .dot .icon-dark,
+    [data-theme="system"] .theme-toggle .dot .icon-light {
+      opacity: 0; transform: scale(0.4);
+    }
+    /* Light mode icon */
+    [data-theme="light"] .theme-toggle .dot .icon-light {
+      opacity: 1; transform: scale(1);
+    }
+    [data-theme="light"] .theme-toggle .dot .icon-dark,
+    [data-theme="light"] .theme-toggle .dot .icon-system {
+      opacity: 0; transform: scale(0.4);
+    }
+    .theme-toggle:hover {
+      border-color: var(--card-border-hover);
+    }
+    .theme-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
     }
 
     /* ===== Section ===== */
@@ -52,7 +183,7 @@
     .section-title {
       font-size: 1.1rem;
       font-weight: 500;
-      color: #94a3b8;
+      color: var(--section-title);
       margin-bottom: 1rem;
       padding-left: 0.5rem;
       border-left: 3px solid;
@@ -69,15 +200,15 @@
     /* ===== Glass Card ===== */
     .card {
       position: relative;
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--card-bg);
       backdrop-filter: blur(16px) saturate(1.2);
       -webkit-backdrop-filter: blur(16px) saturate(1.2);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
       border-radius: 16px;
       padding: 1.25rem 1rem;
       text-decoration: none;
-      color: #e2e8f0;
-      transition: all 0.25s ease;
+      color: var(--text);
+      transition: all 0.25s ease, background 0.35s ease, border-color 0.35s ease;
       display: flex;
       align-items: center;
       gap: 0.85rem;
@@ -87,15 +218,15 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.04) 0%, transparent 60%);
+      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), var(--card-glow) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.35s;
       pointer-events: none;
     }
     .card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
+      border-color: var(--card-border-hover);
       transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      box-shadow: var(--card-shadow);
     }
     .card:hover::before {
       opacity: 1;
@@ -110,12 +241,13 @@
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.06);
+      background: var(--icon-bg);
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--icon-border);
+      transition: background 0.35s ease, border-color 0.35s ease;
     }
     .card .icon img {
       width: 20px;
@@ -137,7 +269,7 @@
     }
     .card .info .desc {
       font-size: 0.75rem;
-      color: #64748b;
+      color: var(--text-muted);
       margin-top: 2px;
       white-space: nowrap;
       overflow: hidden;
@@ -148,7 +280,7 @@
     .card .arrow {
       flex-shrink: 0;
       font-size: 0.75rem;
-      color: #475569;
+      color: var(--text-dim);
       transition: all 0.25s;
     }
     .card:hover .arrow {
@@ -160,8 +292,9 @@
     footer {
       text-align: center;
       padding: 2rem 0 0.5rem;
-      color: #334155;
+      color: var(--text-footer);
       font-size: 0.8rem;
+      transition: color 0.35s ease;
     }
 
     /* ===== Responsive ===== */
@@ -175,6 +308,7 @@
       .card {
         padding: 1rem 0.85rem;
       }
+      .theme-label { display: none; }
     }
     @media (min-width: 641px) and (max-width: 1024px) {
       .grid {
@@ -182,12 +316,38 @@
       }
     }
   </style>
+  <!-- Blocking script: restore saved preference before first paint to avoid flash -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('nav-theme');
+      var html = document.documentElement;
+      if (saved === 'light' || saved === 'dark') {
+        html.setAttribute('data-theme', saved);
+        html.setAttribute('data-resolved', saved);
+      } else {
+        // system mode: resolve based on system preference
+        html.setAttribute('data-theme', 'system');
+        html.setAttribute('data-resolved',
+          window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      }
+    })();
+  </script>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>✦ 我的常用网站</h1>
       <p>—— 极简 · 毛玻璃导航 ——</p>
+      <div class="theme-toggle-wrap">
+        <span class="theme-label" id="themeLabel">深色</span>
+        <div class="theme-toggle" id="themeToggle" role="button" tabindex="0" aria-label="切换主题：深色 / 跟随系统 / 浅色">
+          <span class="dot">
+            <span class="icon-dark">🌙</span>
+            <span class="icon-system">🔄</span>
+            <span class="icon-light">☀️</span>
+          </span>
+        </div>
+      </div>
     </header>
 
     <!-- ===== AI工具 ===== -->
@@ -215,6 +375,14 @@
           <span class="info">
             <span class="name">Google Gemini</span>
             <span class="desc">Google 多模态 AI 对话</span>
+          </span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="https://platform.sensenova.cn" target="_blank" rel="noopener" class="card">
+          <span class="icon"><img src="https://www.google.com/s2/favicons?domain=platform.sensenova.cn&sz=32" alt="" loading="lazy"></span>
+          <span class="info">
+            <span class="name">SenseNova</span>
+            <span class="desc">商汤科技 AI 开放平台</span>
           </span>
           <span class="arrow">→</span>
         </a>
@@ -335,6 +503,84 @@
         card.style.setProperty('--my', `${e.clientY - rect.top}px`);
       });
     });
+  </script>
+
+  <!-- ===== Theme toggle logic ===== -->
+  <script>
+    (function() {
+      var toggle = document.getElementById('themeToggle');
+      var label = document.getElementById('themeLabel');
+      var metaTheme = document.getElementById('theme-color');
+      var html = document.documentElement;
+
+      // Resolve the actual visible theme from system preference
+      function systemResolved() {
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+
+      // Get current user preference mode: 'dark' | 'light' | 'system'
+      function getUserMode() {
+        var theme = html.getAttribute('data-theme');
+        if (theme === 'dark' || theme === 'light') return theme;
+        return 'system';
+      }
+
+      // Update label based on user mode, not resolved theme
+      function updateLabel() {
+        var mode = getUserMode();
+        if (mode === 'dark') label.textContent = '深色';
+        else if (mode === 'light') label.textContent = '浅色';
+        else label.textContent = '跟随系统';
+      }
+
+      // Apply a resolved theme visually, update meta theme-color
+      function applyResolved(resolved) {
+        html.setAttribute('data-resolved', resolved);
+        metaTheme.content = resolved === 'light' ? '#f1f5f9' : '#0b0d12';
+      }
+
+      // Set user preference mode
+      function setUserMode(mode) {
+        if (mode === 'system') {
+          html.setAttribute('data-theme', 'system');
+          localStorage.removeItem('nav-theme');
+          applyResolved(systemResolved());
+        } else {
+          html.setAttribute('data-theme', mode);
+          localStorage.setItem('nav-theme', mode);
+          applyResolved(mode);
+        }
+        updateLabel();
+      }
+
+      // Cycle: dark → system → light → dark ...
+      function cycleTheme() {
+        var current = getUserMode();
+        if (current === 'dark') setUserMode('system');
+        else if (current === 'system') setUserMode('light');
+        else setUserMode('dark');
+      }
+
+      // Listen for system preference changes
+      var mql = window.matchMedia('(prefers-color-scheme: light)');
+      mql.addEventListener('change', function() {
+        if (getUserMode() === 'system') {
+          applyResolved(systemResolved());
+        }
+      });
+
+      toggle.addEventListener('click', cycleTheme);
+      toggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          cycleTheme();
+        }
+      });
+
+      // Ensure label matches on load (blocking script already set data-resolved)
+      applyResolved(html.getAttribute('data-resolved') || 'dark');
+      updateLabel();
+    })();
   </script>
 </body>
 </html>
